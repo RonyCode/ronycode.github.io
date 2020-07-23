@@ -1,0 +1,20 @@
+{
+  "name": "ronycode/educar",
+  "description": "description",
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "ronycode",
+      "email": "ronypc@outlook.com"
+    }
+  ],
+  "require": {
+    "ext-pdo": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\Educar\\": "src/"
+    }
+  }
+}
