@@ -10,18 +10,12 @@
     <title>Error | 404</title>
 </head>
 <style>
-    body {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        background: url("D:/Estudos Rony/aulas/educar/src/View/Main/error404.jpg");
-    }
-
 </style>
 <body>
 
-<h1 class="titulo text-center mt-5 "> Ooooppss... Erro 404 página não encontrada!</h1>
-
+<h1 class="titulo text-center mt-5 text-primary"> Ooooppss...teste Erro 404 página não encontrada!</h1>
+<p align="center">
+    <img class="img" src="images/error.jpg" alt="" width="1280" height="768">
+</p>
 </body>
 </html>

@@ -5,7 +5,7 @@ namespace App\Educar\Controller;
 use App\Educar\Infrastructure\Persistence\ConnectionFactory;
 use App\Educar\Infrastructure\Repository\PdoRepoStudents;
 
-class HomeController extends HtmlRenderController implements InterfaceStartProcess
+class ListAlunosController extends HtmlRenderController implements InterfaceStartProcess
 {
     private $repositorioAlunos;
 
@@ -17,11 +17,17 @@ class HomeController extends HtmlRenderController implements InterfaceStartProce
 
     public function startProcess(): void
     {
+        $alunos = $this->repositorioAlunos->allStudents();
+        $tittleDoc = 'Alunos Cadastrados';
+        $tittle = 'Alunos Cadastrados';
+
+
         echo $this->renderHtml(
-            'alunos/home.php',
+            'alunos/listar-alunos.php',
             [
-                'tittleDoc' => $tittleDoc = 'Espaço Educar | Home',
-                'tittle' => $tittle = 'Escola Espaço Educar ensinando com amor'
+                'alunos' => $alunos,
+                'tittleDoc' => $tittleDoc,
+                'tittle' => $tittle
             ]
         );
     }

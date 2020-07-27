@@ -3,33 +3,34 @@
 namespace App\Educar\Controller;
 
 use App\Educar\Infrastructure\Persistence\ConnectionFactory;
-use App\Educar\Infrastructure\Repository\PdoRepo;
+use App\Educar\Infrastructure\Repository\PdoRepoStudents;
 use App\Educar\Model\Aluno;
 
 class PersistenceController implements InterfaceStartProcess
 {
-    private PdoRepo $repositorioAlunos;
+    private PdoRepoStudents $repoAlunos;
 
     public function __construct()
     {
         $pdo = ConnectionFactory::createConnection();
-        $this->repositorioAlunos = new PdoRepo($pdo);
+        $this->repoAlunos = new PdoRepoStudents($pdo);
     }
 
     public function startProcess(): void
     {
-        $args = array(
-            'name' => FILTER_SANITIZE_STRING,
-            'address' => FILTER_SANITIZE_STRING
-        );
+        $idGet = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        $namePost = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+        $addressPost = filter_input(INPUT_POST, 'address', FILTER_SANITIZE_STRING);
 
-        $filterInputs = filter_input_array(INPUT_POST, $args);
+        if (!is_null($idGet) && $idGet !== false) {
+            $alunoId = $this->repoAlunos->find($idGet);
+            $aluno = new Aluno($alunoId['id'], $namePost, $addressPost);
+            $this->repoAlunos->save($aluno);
+        } else {
+            $aluno = new Aluno(null, $namePost, $addressPost);
+            $this->repoAlunos->save($aluno);
+        }
 
-        $name = $filterInputs['name'];
-        $address = $filterInputs['address'];
-
-        $aluno = new Aluno(null, $name, $address);
-        $this->repositorioAlunos->save($aluno);
-        header('Location: /listar-alunos', true, 302);
+        header('Location: /listar-alunos', false, 302);
     }
 }

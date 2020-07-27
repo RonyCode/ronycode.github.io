@@ -2,13 +2,11 @@
 
 namespace App\Educar\Infrastructure\Repository;
 
-use App\Educar\Domain\Repository\boll;
-
 use App\Educar\Model\Aluno;
 use App\Educar\Model\Repository\StudentRepository;
 use PDO;
 
-class PdoRepo implements StudentRepository
+class PdoRepoStudents implements StudentRepository
 {
     private PDO $connection;
 
@@ -19,8 +17,8 @@ class PdoRepo implements StudentRepository
 
     public function allStudents(): array
     {
-        $sqlQuqery = "SELECT * FROM alunos;";
-        $stmt = $this->connection->query($sqlQuqery);
+        $sqlQuery = "SELECT * FROM alunos;";
+        $stmt = $this->connection->query($sqlQuery);
 
         return $this->hydrateStudentList($stmt);
     }
@@ -83,10 +81,20 @@ class PdoRepo implements StudentRepository
     public function remove(Aluno $aluno): bool
     {
         $stmt = $this->connection->prepare(
-            'DELETE FROM alunos WHERE id = ?;'
+            'DELETE FROM alunos WHERE id = :id;'
         );
-        $stmt->bindValue(1, $aluno->getId(), PDO::PARAM_INT);
+        $stmt->bindValue(':id', $aluno->getId(), PDO::PARAM_INT);
 
         return $stmt->execute();
     }
+
+    public function find($id): array
+    {
+        $stmt = $this->connection->prepare('SELECT * FROM alunos WHERE id = :id;');
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
 }

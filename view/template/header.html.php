@@ -13,9 +13,10 @@
 <body>
 <nav class="navbar navbar-light bg-light ">
     <form class="form-inline">
-        <a href="/home" class="btn btn-outline-success ml-5 mr-2 " link="/listar-cursos" type="button">
+        <a href="/home" class="btn btn-outline-success ml-5 mr-2 " type="button">
             Home</a>
-        <a href="/listar-alunos" class="btn  btn-outline-secondary " type="button"> Alunos</a>
+        <a href="/listar-alunos" class="btn  btn-outline-secondary  mr-2" type="button"> Alunos</a>
+        <a href="/login" class="btn  btn-outline-secondary  mr-2" type="button"> Entrar</a>
     </form>
 </nav>
 <div class="jumbotron bg-primary text-light">
