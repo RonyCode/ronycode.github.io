@@ -6,10 +6,9 @@ use PDO;
 
 abstract class ConnectionFactory
 {
-    private PDO $conn;
-
     public static function createConnection(): PDO
     {
+
         $serveName = 'localhost';
         $dbName = 'db_projeto';
         $dbUser = 'root';

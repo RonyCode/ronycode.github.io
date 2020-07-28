@@ -1,50 +1,26 @@
 <?php
 
 use App\Educar\Infrastructure\Persistence\ConnectionFactory;
-use App\Educar\Infrastructure\Repository\PdoRepoStudents;
-use App\Educar\Model\Aluno;
-use App\Educar\Controller\HtmlRenderController;
+use App\Educar\Infrastructure\Repository\PdoRepoUsers;
 
 require 'vendor/autoload.php';
 
 $pdo = ConnectionFactory::createConnection();
-$repoAlunos = new PdoRepoStudents($pdo);
+$repoUsers = new PdoRepoUsers($pdo);
 
-$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-$namePost = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-$addressPost = filter_input(INPUT_POST, 'address', FILTER_SANITIZE_STRING);
+$id = $_POST['id'];
+//$idHash = password_hash($id, PASSWORD_DEFAULT);
 
+$stmt = $pdo->prepare('SELECT * FROM usuarios WHERE senha=:senha;');
+$stmt->bindValue(':senha', $id);
+$stmt->execute();
+$result = $stmt->fetch();
 
-$alunos = $repoAlunos->allStudents();
+var_dump($id);
+var_dump($result['senha']);
 
-
-//foreach ($alunos as $aluno) :
-//endforeach; ?>
-<!---->
-<!--    <form action="teste.php?id=63">-->
-<!--        <div class="form-group">-->
-<!--            <label for="name">Nome do Aluno:</label>-->
-<!--            <input type="text"-->
-<!--                   name="name"-->
-<!--                   id="name"-->
-<!--                   class="form-control"-->
-<!--                   value="--><?//= $aluno->getName(); ?><!--"-->
-<!--            >-->
-<!--            <label for="address">Endereço:</label>-->
-<!--            <input type="text"-->
-<!--                   name="address"-->
-<!--                   id="address"-->
-<!--                   class="form - control"-->
-<!--                   value="--><?//= $aluno->getAddress(); ?><!--"-->
-<!--            >-->
-<!---->
-<!--            <div class="col - lg - 12" style="text - align: right;">-->
-<!--                <button class="btn btn - primary right mt - 2">Adicionar</button>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </form>-->
-<?php
-//require_once __DIR__ . '/src/view/template/header.html.php';
-//?>
-
-
+?>
+<form action="" method="post">
+    <input type="text" name="id">
+    <button type="submit">enviar</button>
+</form>

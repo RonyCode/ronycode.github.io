@@ -6,7 +6,7 @@ use App\Educar\Model\Usuario;
 
 interface UserRepository
 {
-    public function findUser($id): array;
+    public function login($email, $senha): bool;
 
     public function saveUser(Usuario $user): bool;
 

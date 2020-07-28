@@ -15,8 +15,15 @@ if (!array_key_exists($getUrl, $routes)) {
     exit();
 }
 
+if (session_status() !== PHP_SESSION_ACTIVE) {//Verificar se a sessão não já está aberta.
+    session_start();
+}
+
+
+//if (!$_SESSION['usuario']) {
+//    header('Location: /formulario-login');
+//}
 $classControladora = $routes[$getUrl];
 /** @var InterfaceStartProcess $controlador */
 $controlador = new $classControladora();
 $controlador->startProcess();
-

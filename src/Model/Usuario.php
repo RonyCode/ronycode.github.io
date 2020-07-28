@@ -20,12 +20,10 @@ class Usuario
         return $this->id;
     }
 
-
     public function getEmail(): string
     {
         return $this->email;
     }
-
 
     public function getSenha(): string
     {

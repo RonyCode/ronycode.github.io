@@ -1,12 +1,13 @@
 <?php
 
+
 namespace App\Educar\Controller;
+
 
 use App\Educar\Infrastructure\Persistence\ConnectionFactory;
 use App\Educar\Infrastructure\Repository\PdoRepoUsers;
-use App\Educar\Model\Usuario;
 
-class SaveLoginController extends HtmlRenderController implements InterfaceStartProcess
+class LoginValidateController implements InterfaceStartProcess
 {
     private PdoRepoUsers $repoUsers;
 
@@ -18,7 +19,8 @@ class SaveLoginController extends HtmlRenderController implements InterfaceStart
 
     public function startProcess(): void
     {
-        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
+        $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+
         $senha = filter_input(INPUT_POST, 'senha', FILTER_SANITIZE_STRING);
 
         if (is_null($email) && is_null($senha) && $email === false && $senha === false) {
@@ -26,15 +28,16 @@ class SaveLoginController extends HtmlRenderController implements InterfaceStart
             return;
         }
 
+        $user = $this->repoUsers->login($email, $senha);
 
-        $user = new Usuario(null, $email, $senha);
-        $userLoginCreated = $this->repoUsers->saveUser($user);
-        if ($userLoginCreated === false || is_null($userLoginCreated)) {
-            echo 'usuário já cadastrado';
-            return;
+
+        if ($user === false || is_null($user)) {
+            header('Location: /formulario-login');
+        } else {
+            header('Location: /listar-alunos', false, 302);
         }
 
-        header('location: /formulario-login', false, 302);
+        $_SESSION['usuario'] = true;
 
     }
 }

@@ -4,7 +4,7 @@ include __DIR__ . '/../template/header.html.php'; ?>
 
 
 <div class="container">
-  <form action="/login-realizado" method="post">
+  <form action="/salvar-login" method="post">
     <div class="form-group">
       <label for="name">Digite seu e-mail:</label>
       <input type="email" name="email" id="email" class="form-control" required>
@@ -16,10 +16,9 @@ include __DIR__ . '/../template/header.html.php'; ?>
              class="form-control" required>
 
       <div align="left">
-        <button class="btn btn-primary right mt-2">Entrar
+        <button class="btn btn-primary  right mt-2">Cadastrar
         </button>
-        <a href="/formulario-cadastrar-login" class="btn btn-primary  right mt-2">Cadastrar
-        </a>
+
       </div>
     </div>
   </form>
