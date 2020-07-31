@@ -1,0 +1,13 @@
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>vendor\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .gitignore	(date 1596193872000)
++++ .gitignore	(date 1596193961111)
+@@ -1,1 +1,2 @@
+ vendor
++.idea
+\ No newline at end of file
