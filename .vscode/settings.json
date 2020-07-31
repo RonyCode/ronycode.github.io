@@ -1,0 +1,17 @@
+{
+    "sqltools.connections": [
+        {
+            "database": "db_projeto",
+            "driver": "MySQL",
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "name": "asdasd",
+            "password": "170286para",
+            "port": 3306,
+            "previewLimit": 50,
+            "server": "localhost",
+            "username": "root"
+        }
+    ]
+}
