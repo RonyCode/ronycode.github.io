@@ -46,6 +46,7 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="PATH_TO_GIT" value="D:\estudos\Git\bin\git.exe" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitToolBoxStore">
@@ -79,7 +80,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
-    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -187,6 +188,7 @@
       <workItem from="1596165243693" duration="621000" />
       <workItem from="1596166848922" duration="2315000" />
       <workItem from="1596169575225" duration="214000" />
+      <workItem from="1596169904888" duration="371000" />
     </task>
     <task id="LOCAL-00001" summary="projeto 1.0">
       <created>1595814054810</created>
@@ -369,14 +371,26 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="794" y="448" key="NewPhpFileDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1595971248982" />
-    <state x="665" y="0" width="1255" height="1050" key="SettingsEditor" timestamp="1596169383374">
+    <state x="665" y="0" width="1255" height="1050" key="SettingsEditor" timestamp="1596170274827">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="665" y="0" width="1255" height="1050" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1596169383374" />
+    <state x="665" y="0" width="1255" height="1050" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1596170274827" />
+    <state x="1032" y="258" key="Vcs.Push.Dialog.v2" timestamp="1596170240771">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="1032" y="258" key="Vcs.Push.Dialog.v2/0.0.1920.1050@0.0.1920.1050" timestamp="1596170240771" />
     <state x="1249" y="439" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1596169392374">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="1249" y="439" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1050@0.0.1920.1050" timestamp="1596169392374" />
+    <state x="1245" y="386" key="git4idea.rebase.GitRebaseDialog" timestamp="1596169972632">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="1245" y="386" key="git4idea.rebase.GitRebaseDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1596169972632" />
+    <state x="1239" y="426" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1596170032350">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="1239" y="426" key="git4idea.remote.GitConfigureRemotesDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1596170032350" />
     <state x="1283" y="287" key="refactoring.ChangeSignatureDialog" timestamp="1595938055229">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
