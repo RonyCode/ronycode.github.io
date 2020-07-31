@@ -19,35 +19,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4b045dde-9f5e-4173-8e93-a7aadb59472c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/composerJson.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/Decent.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/designmodo-background.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/footer-container.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/images/sunset-background.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/style/style-template.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/style/style.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/view/template/error.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/app-educar.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/app-educar.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/routes.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/info.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/ListAlunosController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ListAlunosController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/LoginValidateController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/LoginValidateController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/LogoutController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/LogoutController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/SaveLoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/SaveLoginController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Infrastructure/Repository/PdoRepoUsers.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Infrastructure/Repository/PdoRepoUsers.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Repository/UserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Repository/UserRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Usuario.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Usuario.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Style/Images/background.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/public/images/background.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/teste.php" beforeDir="false" afterPath="$PROJECT_DIR$/teste.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/alunos/home.php" beforeDir="false" afterPath="$PROJECT_DIR$/view/alunos/home.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/alunos/listar-alunos.php" beforeDir="false" afterPath="$PROJECT_DIR$/view/alunos/listar-alunos.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/login/formulario-cadastrar-login.php" beforeDir="false" afterPath="$PROJECT_DIR$/view/login/formulario-cadastrar-login.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/login/formulario.php" beforeDir="false" afterPath="$PROJECT_DIR$/view/login/formulario.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/template/footer.html.php" beforeDir="false" afterPath="$PROJECT_DIR$/view/template/footer.html.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/template/header.html.php" beforeDir="false" afterPath="$PROJECT_DIR$/view/template/header.html.php" afterDir="false" />
+    <list default="true" id="4b045dde-9f5e-4173-8e93-a7aadb59472c" name="Default Changelist" comment="Entendendo o login">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,7 +173,7 @@
       <workItem from="1596150449119" duration="943000" />
       <workItem from="1596160628047" duration="4551000" />
       <workItem from="1596165243693" duration="621000" />
-      <workItem from="1596166848922" duration="1918000" />
+      <workItem from="1596166848922" duration="2315000" />
     </task>
     <task id="LOCAL-00001" summary="projeto 1.0">
       <created>1595814054810</created>
@@ -209,7 +182,14 @@
       <option name="project" value="LOCAL" />
       <updated>1595814054811</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Entendendo o login">
+      <created>1596169102300</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1596169102300</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -229,7 +209,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="projeto 1.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="projeto 1.0" />
+    <MESSAGE value="Entendendo o login" />
+    <option name="LAST_COMMIT_MESSAGE" value="Entendendo o login" />
   </component>
   <component name="WindowStateProjectService">
     <state x="540" y="180" key="#CLI_Interpreters" timestamp="1594991229352">
@@ -356,14 +337,14 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="794" y="448" key="NewPhpFileDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1595971248982" />
-    <state x="665" y="0" width="1255" height="1050" key="SettingsEditor" timestamp="1596120793100">
+    <state x="665" y="0" width="1255" height="1050" key="SettingsEditor" timestamp="1596169383374">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="665" y="0" width="1255" height="1050" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1596120793100" />
-    <state x="1249" y="439" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1595971196191">
+    <state x="665" y="0" width="1255" height="1050" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1596169383374" />
+    <state x="1249" y="439" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1596169392374">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="1249" y="439" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1050@0.0.1920.1050" timestamp="1595971196191" />
+    <state x="1249" y="439" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1050@0.0.1920.1050" timestamp="1596169392374" />
     <state x="1283" y="287" key="refactoring.ChangeSignatureDialog" timestamp="1595938055229">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
