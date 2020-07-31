@@ -2,6 +2,7 @@
 
 namespace App\Educar\Infrastructure\Repository;
 
+use App\Educar\Model\Aluno;
 use App\Educar\Model\Repository\UserRepository;
 use App\Educar\Model\Usuario;
 use PDO;
@@ -15,61 +16,61 @@ class PdoRepoUsers implements UserRepository
         $this->connection = $connection;
     }
 
-    public function login($email, $senha): bool
+    public function login(Usuario $usuario): bool
     {
-
-        $stmt = $this->connection->prepare('SELECT id FROM usuarios WHERE email = :email AND   senha = :senha');
-        $stmt->bindValue(':email', $email);
-        $stmt->bindValue(':senha', $senha);
+        $stmt = $this->connection->prepare('SELECT * FROM usuarios WHERE usuario = :usuario LIMIT 1');
+        $stmt->bindValue(':usuario', $usuario->getUsuario());
         $stmt->execute();
 
-        if ($stmt->rowCount() > 0) {
-            $userLogin = $stmt->fetch();
-            $_SESSION['senhaUser'] = $userLogin['senha'];
-            return true;
-
+        if ($stmt->rowCount() < 0) {
+            echo 'erro usuario não existe';
+            exit();
         } else {
-            return false;
+            $usuarioQuery = $stmt->fetch();
+            $senhaDB = $usuarioQuery['senha'];
+            $validate = password_verify($senha, $senhaDB);
         }
+        return $validate;
     }
-
 
     public function saveUser(Usuario $usuario): bool
     {
-        if ($usuario->getId() === null) {
+        if ($usuario->getID() === null) {
             return $this->insertUser($usuario);
         }
-
         return $this->updateUser($usuario);
     }
 
     private function insertUser(Usuario $usuario): bool
     {
-        $stmt = $this->connection->prepare('SELECT id FROM usuarios WHERE email = :email;');
-        $stmt->bindValue(':email', $usuario->getEmail());
-        $stmt->execute();
-        if ($stmt->rowCount() > 0) {
-            return false;
-        }
-
-        $insertQuery = 'INSERT INTO usuarios (email, senha)VALUES (:email, :senha);';
+        $insertQuery = 'INSERT INTO usuarios (usuario, email, senha) VALUES (:usuario, :email, :senha);';
         $stmt = $this->connection->prepare($insertQuery);
+        try {
+            $stmt->execute([
+                ':usuario' => $usuario->getUsuario(),
+                ':email' => $usuario->getEmail(),
+                ':senha' => \password_hash($usuario->getSenha(),
+                    \PASSWORD_ARGON2I),
+            ]);
 
-        $success = $stmt->execute([
-            ':email' => $usuario->getEmail(),
-            ':senha' => $usuario->getSenha(),
-        ]);
-        if ($success) {
             $usuario->defineIdUser($this->connection->lastInsertId());
-        }
 
-        return $success;
+            // VALIDA SE USUÁRIO JÁ TEM CADASTRO E IMPEDE NOVO CADASTRO//
+        } catch (\PDOException $e) {
+            if ($e->getCode() == '23000') {
+                echo 'Usuário ou senha já cadastrado : ';
+                exit();
+            }
+        } finally {
+            return true;
+        }
     }
 
     private function updateUser(Usuario $usuario): bool
     {
-        $updateQuery = 'UPDATE usuarios SET email = :email, senha = :senha WHERE id = :id;';
+        $updateQuery = 'UPDATE usuarios SET usuario=:usuario,  email = :email, senha = :senha WHERE id = :id;';
         $stmt = $this->connection->prepare($updateQuery);
+        $stmt->bindValue(':usuario', $usuario->getUsuario());
         $stmt->bindValue(':email', $usuario->getEmail());
         $stmt->bindValue(':senha', $usuario->getSenha());
         $stmt->bindValue(':id', $usuario->getId(), PDO::PARAM_INT);
@@ -79,11 +80,9 @@ class PdoRepoUsers implements UserRepository
 
     public function removeUser(Usuario $usuario): bool
     {
-        $stmt = $this->connection->prepare('DELETE FROM alunos WHERE id = :id;');
+        $stmt = $this->connection->prepare('DELETE FROM usuarios WHERE id = :id;');
         $stmt->bindValue(':id', $usuario->getId(), PDO::PARAM_INT);
 
         return $stmt->execute();
     }
-
-
 }

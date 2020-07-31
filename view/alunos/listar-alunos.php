@@ -25,8 +25,10 @@ include __DIR__ . '/../template/header.html.php'; ?>
                 <th scope="row"><?= $aluno->getId(); ?></th>
                 <td><?= $aluno->getName(); ?></td>
                 <td><?= $aluno->getAddress(); ?>
-                    <a href="/remover-aluno?id=<?= $aluno->getId(); ?>" class="btn btn-primary right float-right">Excluir</a>
-                    <a href="/editar-aluno?id=<?= $aluno->getId(); ?>" class="btn btn-info right float-right mr-1">Editar</a>
+                    <a href="/remover-aluno?id=<?= $aluno->getId(); ?>"
+                       class="btn btn-primary right float-right text-light">Excluir</a>
+                    <a href="/editar-aluno?id=<?= $aluno->getId(); ?>"
+                       class="btn btn-info right float-right mr-1">Editar</a>
                 </td>
                 <?php
                 endforeach; ?>
@@ -34,7 +36,7 @@ include __DIR__ . '/../template/header.html.php'; ?>
             </tbody>
         </table>
         <div class="col-lg-12" style="text-align: right;">
-            <a href="/novo-aluno" class="btn btn-primary right mt-2">Adicionar</a>
+            <a href="/novo-aluno" class="btn btn-primary right">Adicionar</a>
         </div>
     </div>
     </div>

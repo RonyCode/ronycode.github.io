@@ -11,6 +11,6 @@ class LogoutController implements InterfaceStartProcess
     {
         session_unset();
         session_destroy();
-        header('Location: /formulario-login', false, 302);
+        header('Location: /login', false, 302);
     }
 }

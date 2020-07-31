@@ -11,11 +11,12 @@ use App\Educar\Controller\{ErrorController,
     LogoutController,
     PersistenceController,
     RemoveController,
-    SaveLoginController};
+    SaveLoginController
+};
 
 $routes = [
     '/home' => HomeController::class,
-    '/formulario-login' => FormLoginController::class,
+    '/login' => FormLoginController::class,
     '/listar-alunos' => ListAlunosController::class,
     '/novo-aluno' => FormInsertController::class,
     '/salvar-aluno' => PersistenceController::class,
@@ -23,7 +24,7 @@ $routes = [
     '/editar-aluno' => FormEditController::class,
     '/error' => ErrorController::class,
     '/salvar-login' => SaveLoginController::class,
-    '/formulario-cadastrar-login' => FormCreateLoginController::class,
+    '/cadastrar-login' => FormCreateLoginController::class,
     '/login-realizado' => LoginValidateController::class,
     '/logout' => LogoutController::class
 ];

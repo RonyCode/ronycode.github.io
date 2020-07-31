@@ -10,26 +10,36 @@
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
           crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="style/style-template.css">
 
     <title><?= $tittleDoc ?></title>
 </head>
 
 <body>
-<?php if (isset($_SESSION['usuario'])): ?>
-    <nav class="navbar navbar-light bg-light ">
-        <form class="form-inline ">
-            <a href="/home" class="btn btn-outline-success ml-5 mr-2 "
-               type="button">
-                Home</a>
-            <a href="/listar-alunos" class="btn  btn-outline-secondary  mr-2"
-               type="button"> Alunos</a>
-        </form>
-        <a href="/logout" class="btn  btn-outline-secondary mr-2"
-           type="button"> Sair</a>
-    </nav>
-<?php endif; ?>
-<div class="jumbotron bg-primary text-light">
+<div class="nav-color">
     <div class="container">
-        <h1 class="titulo"><?= $tittle ?></h1>
+        <?php if (isset($_SESSION['usuario'])): ?>
+            <nav class="navbar navbar-light bg-personal">
+                <form class="form-inline d-flex ">
+
+                    <a href="/home"
+                       class="btn btn-outline-success ml-5 mt-auto mr-1 "
+                       type="button">
+                        Home</a>
+                    <a href="/listar-alunos"
+                       class="btn  btn-outline-info mt-auto"
+                       type="button"> Alunos</a>
+                </form>
+                <a href="/logout"
+                   class="  btn btn-outline-danger mr-5"
+                   type="button"> Sair</a>
+            </nav>
+        <?php endif; ?>
+    </div>
+    <div class="container-header">
+        <div class="nav-teste container">
+            <h1 class="titulo "><?= $tittle ?></h1>
+        </div>
     </div>
 </div>
+</div><!--nav-color-->
