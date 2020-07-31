@@ -5,12 +5,18 @@ namespace App\Educar\Model;
 class Usuario
 {
     private ?int $id;
+    private string $usuario;
     private string $email;
     private string $senha;
 
-    public function __construct(?int $id, string $email, string $senha)
-    {
+    public function __construct(
+        ?int $id,
+        string $usuario,
+        string $email,
+        string $senha
+    ) {
         $this->id = $id;
+        $this->usuario = $usuario;
         $this->email = $email;
         $this->senha = $senha;
     }
@@ -42,5 +48,10 @@ class Usuario
         }
 
         $this->id = $id;
+    }
+
+    public function getUsuario(): string
+    {
+        return $this->usuario;
     }
 }

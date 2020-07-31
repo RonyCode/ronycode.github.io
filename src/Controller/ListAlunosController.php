@@ -4,8 +4,10 @@ namespace App\Educar\Controller;
 
 use App\Educar\Infrastructure\Persistence\ConnectionFactory;
 use App\Educar\Infrastructure\Repository\PdoRepoStudents;
+use App\Educar\Model\Usuario;
 
-class ListAlunosController extends HtmlRenderController implements InterfaceStartProcess
+class ListAlunosController extends HtmlRenderController implements
+    InterfaceStartProcess
 {
     private $repositorioAlunos;
 
@@ -19,16 +21,13 @@ class ListAlunosController extends HtmlRenderController implements InterfaceStar
     {
         $alunos = $this->repositorioAlunos->allStudents();
         $tittleDoc = 'Alunos Cadastrados';
-        $tittle = 'Alunos Cadastrados';
 
+        $tittle = 'Bem Vindo: ' . $_SESSION['usuario'];
 
-        echo $this->renderHtml(
-            'alunos/listar-alunos.php',
-            [
-                'alunos' => $alunos,
-                'tittleDoc' => $tittleDoc,
-                'tittle' => $tittle
-            ]
-        );
+        echo $this->renderHtml('alunos/listar-alunos.php', [
+            'alunos' => $alunos,
+            'tittleDoc' => $tittleDoc,
+            'tittle' => $tittle,
+        ]);
     }
 }

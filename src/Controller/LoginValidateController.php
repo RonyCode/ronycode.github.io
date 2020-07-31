@@ -1,11 +1,13 @@
 <?php
 
-
 namespace App\Educar\Controller;
-
 
 use App\Educar\Infrastructure\Persistence\ConnectionFactory;
 use App\Educar\Infrastructure\Repository\PdoRepoUsers;
+use App\Educar\Model\Usuario;
+use PDO;
+
+session_start();
 
 class LoginValidateController implements InterfaceStartProcess
 {
@@ -19,25 +21,21 @@ class LoginValidateController implements InterfaceStartProcess
 
     public function startProcess(): void
     {
-        $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+        $userPost = filter_input(INPUT_POST, 'usuario', FILTER_SANITIZE_STRING);
+        $senhaPost = filter_input(INPUT_POST, 'senha', FILTER_SANITIZE_STRING);
 
-        $senha = filter_input(INPUT_POST, 'senha', FILTER_SANITIZE_STRING);
-
-        if (is_null($email) && is_null($senha) && $email === false && $senha === false) {
-            echo 'E-mail e senha inválidos';
+        if (is_null($userPost) || $userPost === false) {
+            echo 'Usuário inválidos';
             return;
         }
 
-        $user = $this->repoUsers->login($email, $senha);
+        $usuario = $this->repoUsers->login($userPost, $senhaPost);
 
-
-        if ($user === false || is_null($user)) {
-            header('Location: /formulario-login');
-        } else {
-            header('Location: /listar-alunos', false, 302);
+        if (is_null($usuario) || $usuario === false) {
+            echo 'E-mail ou senha incorretos';
+            return;
         }
 
-        $_SESSION['usuario'] = true;
-
+        header('location: /listar-alunos', false, 302);
     }
 }

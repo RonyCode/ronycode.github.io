@@ -18,8 +18,12 @@ class SaveLoginController extends HtmlRenderController implements InterfaceStart
 
     public function startProcess(): void
     {
+
+
+        $usuario = filter_input(INPUT_POST, 'usuario', FILTER_SANITIZE_STRING);
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
         $senha = filter_input(INPUT_POST, 'senha', FILTER_SANITIZE_STRING);
+
 
         if (is_null($email) && is_null($senha) && $email === false && $senha === false) {
             echo 'E-mail e senha inválidos';
@@ -27,14 +31,15 @@ class SaveLoginController extends HtmlRenderController implements InterfaceStart
         }
 
 
-        $user = new Usuario(null, $email, $senha);
-        $userLoginCreated = $this->repoUsers->saveUser($user);
-        if ($userLoginCreated === false || is_null($userLoginCreated)) {
-            echo 'usuário já cadastrado';
+        $user = new Usuario(null, $usuario, $email, $senha);
+
+        $userLogin = $this->repoUsers->saveUser($user);
+        if ($userLogin === false || is_null($userLogin)) {
+            echo 'usuário ou email já cadastrado';
             return;
         }
 
-        header('location: /formulario-login', false, 302);
+        header('location: /login', false, 302);
 
     }
 }

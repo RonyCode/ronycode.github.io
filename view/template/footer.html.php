@@ -1,8 +1,12 @@
 </body>
-<div class="">
+<div class="footer-style">
+    <div class="container-footer">
+        <nav>
+            <div class="footer-text">
+                <h6> © Ronycode Todos os direitos reservados</h6>
 
-    <nav class="jumbotron text-center mt-5">
-        <h7> © Ronycode Todos os direitos reservados</h7>
-    </nav>
+            </div>
+        </nav>
+    </div>
 </div>
 </html>
