@@ -2,18 +2,20 @@
 
 namespace App\Educar\Controller;
 
-class FormInsertController extends HtmlRenderController implements InterfaceStartProcess
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+
+class FormInsertController extends HtmlRenderController implements RequestHandlerInterface
 {
-    public function startProcess(): void
+    public function handle($request): ResponseInterface
     {
         $tittleDoc = 'Espaço Educar | Cadastro';
         $tittle = 'Adicionar aluno';
-        echo $this->renderHtml(
-            'alunos/formulario-aluno.php',
-            [
-                'tittle' => $tittle,
-                'tittleDoc' => $tittleDoc
-            ]
-        );
+        $html = $this->renderHtml('alunos/formulario-aluno.php', [
+            'tittle' => $tittle,
+            'tittleDoc' => $tittleDoc
+        ]);
+        return new Response(202, [], $html);
     }
 }

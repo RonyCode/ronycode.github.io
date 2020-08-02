@@ -5,8 +5,11 @@ namespace App\Educar\Controller;
 use App\Educar\Infrastructure\Persistence\ConnectionFactory;
 use App\Educar\Infrastructure\Repository\PdoRepoStudents;
 use App\Educar\Model\Aluno;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class FormEditController extends HtmlRenderController implements InterfaceStartProcess
+class FormEditController extends HtmlRenderController implements RequestHandlerInterface
 {
     private PdoRepoStudents $repoAlunos;
 
@@ -16,28 +19,21 @@ class FormEditController extends HtmlRenderController implements InterfaceStartP
         $this->repoAlunos = new PdoRepoStudents($pdo);
     }
 
-    public function startProcess(): void
+    public function handle($request): ResponseInterface
     {
-        $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        $id = filter_var($request->getQueryParams()['id'], FILTER_VALIDATE_INT);
 
-        if (is_null($id) || $id === false) {
-            header('Location: /listar-alunos', true, 302);
-
-            return;
+        if ($id === false || is_null($id)) {
+            return new Response(302, ['Location' => '/listar-alunos']);
         }
+        $alunoPost = new Aluno($id, '', ''
 
-        $alunos = $this->repoAlunos->find($id);
+        );
 
-        $id = $alunos['id'];
-        $name = $alunos['name'];
-        $address = $alunos['address'];
-
-        $aluno = new Aluno($id, $name, $address);
+        $aluno = $this->repoAlunos->find($alunoPost);
 
 
-        echo $this->renderHtml(
-            'alunos/formulario-aluno.php',
-            [
+        $html = $this->renderHtml('alunos/formulario-aluno.php', [
                 'tittleDoc' => $tittleDoc = 'Alterar cadastro | Cadastro',
                 'tittle' => $tittle = 'Alterar cadastro: ' . $aluno->getName(),
                 'aluno' => $aluno,
@@ -45,5 +41,6 @@ class FormEditController extends HtmlRenderController implements InterfaceStartP
             ]
 
         );
+        return new Response(202, [], $html);
     }
 }

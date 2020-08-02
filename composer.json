@@ -10,7 +10,13 @@
     }
   ],
   "require": {
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "psr/http-message": "^1.0@dev",
+    "nyholm/psr7-server": "dev-master",
+    "php-http/message-factory": "^1.0@dev",
+    "nyholm/psr7": "^1.0@dev",
+    "psr/http-server-handler": "^1.0@dev",
+    "php-di/php-di": "dev-master"
   },
   "autoload": {
     "psr-4": {

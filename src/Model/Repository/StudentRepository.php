@@ -11,4 +11,6 @@ interface StudentRepository
     public function save(Aluno $aluno): bool;
 
     public function remove(Aluno $aluno): bool;
+
+    public function find(Aluno $aluno): ALuno;
 }

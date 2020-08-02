@@ -4,8 +4,11 @@ namespace App\Educar\Controller;
 
 use App\Educar\Infrastructure\Persistence\ConnectionFactory;
 use App\Educar\Infrastructure\Repository\PdoRepoStudents;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class HomeController extends HtmlRenderController implements InterfaceStartProcess
+class HomeController extends HtmlRenderController implements RequestHandlerInterface
 {
     private $repositorioAlunos;
 
@@ -15,14 +18,12 @@ class HomeController extends HtmlRenderController implements InterfaceStartProce
         $this->repositorioAlunos = new PdoRepoStudents($pdo);
     }
 
-    public function startProcess(): void
+    public function handle($request): ResponseInterface
     {
-        echo $this->renderHtml(
-            'alunos/home.php',
-            [
-                'tittleDoc' => $tittleDoc = 'Espaço Educar | Home',
-                'tittle' => $tittle = 'Escola Espaço Educar ensinando com amor'
-            ]
-        );
+        $html = $this->renderHtml('alunos/home.php', [
+            'tittleDoc' => $tittleDoc = 'Espaço Educar | Home',
+            'tittle' => $tittle = 'Escola Espaço Educar ensinando com amor'
+        ]);
+        return new Response(200, [], $html);
     }
 }

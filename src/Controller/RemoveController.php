@@ -2,12 +2,17 @@
 
 namespace App\Educar\Controller;
 
+use App\Educar\Helper\FlashMessageTrait;
 use App\Educar\Infrastructure\Persistence\ConnectionFactory;
 use App\Educar\Infrastructure\Repository\PdoRepoStudents;
 use App\Educar\Model\Aluno;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class RemoveController implements InterfaceStartProcess
+class RemoveController implements RequestHandlerInterface
 {
+    use FlashMessageTrait;
     private PdoRepoStudents $repoAlunos;
 
     public function __construct()
@@ -16,24 +21,22 @@ class RemoveController implements InterfaceStartProcess
         $this->repoAlunos = new PdoRepoStudents($pdo);
     }
 
-    public function startProcess(): void
+    public function handle($request): ResponseInterface
     {
-        $id = filter_input(
-            INPUT_GET,
-            'id',
-            FILTER_VALIDATE_INT
-        );
+        $id = filter_var($request->getQueryParams()['id'], FILTER_VALIDATE_INT);
+
+        $response = new Response(302, ['Location' => '/listar-alunos']);
 
         if (is_null($id) || $id === false) {
-            header('Location: /listar-alunos');
-            return;
+            $this->definyMessage('danger', 'Aluno não cadastrado');
+            return $response;
         }
 
-        $alunos = new Aluno(
-            $id, '', ''
-        );
+        $alunos = new Aluno($id, '', '');
 
         $this->repoAlunos->remove($alunos);
-        header('Location: /listar-alunos');
+        $this->definyMessage('danger', 'Aluno removido com sucesso');
+
+        return $response;
     }
 }

@@ -4,16 +4,21 @@
 namespace App\Educar\Controller;
 
 
-class FormCreateLoginController extends HtmlRenderController implements InterfaceStartProcess
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+
+class FormCreateLoginController extends HtmlRenderController implements RequestHandlerInterface
 {
-    public function startProcess(): void
+    public function handle($request): ResponseInterface
     {
         $tittle = 'Cadastrar usuário';
         $tittleDoc = 'Cadastro | Login';
 
-        echo $this->renderHtml('/login/formulario-cadastrar-login.php', [
+        $html = $this->renderHtml('/login/formulario-cadastrar-login.php', [
             'tittle' => $tittle = 'Cadastrar usuário',
             'tittleDoc' => $tittleDoc = 'Cadastro | Login'
         ]);
+        return new Response(202, [], $html);
     }
 }

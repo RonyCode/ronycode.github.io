@@ -2,13 +2,14 @@
 
 namespace App\Educar\Infrastructure\Repository;
 
-use App\Educar\Model\Aluno;
+use App\Educar\Helper\FlashMessageTrait;
 use App\Educar\Model\Repository\UserRepository;
 use App\Educar\Model\Usuario;
 use PDO;
 
 class PdoRepoUsers implements UserRepository
 {
+    use FlashMessageTrait;
     private PDO $connection;
 
     public function __construct(PDO $connection)
@@ -16,21 +17,19 @@ class PdoRepoUsers implements UserRepository
         $this->connection = $connection;
     }
 
-    public function login(Usuario $usuario): bool
+    public function login(Usuario $usuario): string
     {
         $stmt = $this->connection->prepare('SELECT * FROM usuarios WHERE usuario = :usuario LIMIT 1');
         $stmt->bindValue(':usuario', $usuario->getUsuario());
         $stmt->execute();
 
-        if ($stmt->rowCount() < 0) {
-            echo 'erro usuario não existe';
-            exit();
-        } else {
+        if ($stmt->rowCount() > 0) {
             $usuarioQuery = $stmt->fetch();
-            $senhaDB = $usuarioQuery['senha'];
-            $validate = password_verify($senha, $senhaDB);
+            $_SESSION['logado'] = $usuarioQuery['usuario'];
+            return $usuarioQuery['senha'];
+        } else {
+            return '';
         }
-        return $validate;
     }
 
     public function saveUser(Usuario $usuario): bool
@@ -43,6 +42,8 @@ class PdoRepoUsers implements UserRepository
 
     private function insertUser(Usuario $usuario): bool
     {
+
+
         $insertQuery = 'INSERT INTO usuarios (usuario, email, senha) VALUES (:usuario, :email, :senha);';
         $stmt = $this->connection->prepare($insertQuery);
         try {
@@ -57,12 +58,16 @@ class PdoRepoUsers implements UserRepository
 
             // VALIDA SE USUÁRIO JÁ TEM CADASTRO E IMPEDE NOVO CADASTRO//
         } catch (\PDOException $e) {
-            if ($e->getCode() == '23000') {
-                echo 'Usuário ou senha já cadastrado : ';
+            if ($e->getCode() === '23000') {
+                echo 'teste';
+                header('Location: /login');
+                $this->definyMessage('danger',
+                    'Usuário ou email já cadastrado');
                 exit();
             }
         } finally {
             return true;
+
         }
     }
 

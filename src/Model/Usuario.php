@@ -31,14 +31,28 @@ class Usuario
         return $this->email;
     }
 
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
     public function getSenha(): string
     {
         return $this->senha;
     }
 
-    public function senhaEstaCorreta(string $senhaPura): bool
+    public function setSenha($senha)
     {
-        return password_verify($senhaPura, $this->senha);
+        $this->senha = $senha;
+
+        return $this;
+    }
+
+    public function senhaEstaCorreta(string $senhaHash): bool
+    {
+        return password_verify($this->senha, $senhaHash);
     }
 
     public function defineIdUser(int $id): void
@@ -53,5 +67,12 @@ class Usuario
     public function getUsuario(): string
     {
         return $this->usuario;
+    }
+
+    public function setUsuario($usuario)
+    {
+        $this->usuario = $usuario;
+
+        return $this;
     }
 }

@@ -4,10 +4,11 @@ namespace App\Educar\Controller;
 
 use App\Educar\Infrastructure\Persistence\ConnectionFactory;
 use App\Educar\Infrastructure\Repository\PdoRepoStudents;
-use App\Educar\Model\Usuario;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class ListAlunosController extends HtmlRenderController implements
-    InterfaceStartProcess
+class ListAlunosController extends HtmlRenderController implements RequestHandlerInterface
 {
     private $repositorioAlunos;
 
@@ -17,17 +18,18 @@ class ListAlunosController extends HtmlRenderController implements
         $this->repositorioAlunos = new PdoRepoStudents($pdo);
     }
 
-    public function startProcess(): void
+    public function handle($request): ResponseInterface
     {
         $alunos = $this->repositorioAlunos->allStudents();
         $tittleDoc = 'Alunos Cadastrados';
 
-        $tittle = 'Bem Vindo: ' . $_SESSION['usuario'];
+        $tittle = 'Bem Vindo: ' . $_SESSION['logado'];
 
-        echo $this->renderHtml('alunos/listar-alunos.php', [
+        $html= $this->renderHtml('alunos/listar-alunos.php', [
             'alunos' => $alunos,
             'tittleDoc' => $tittleDoc,
             'tittle' => $tittle,
         ]);
+        return new Response(200, [], $html);
     }
 }

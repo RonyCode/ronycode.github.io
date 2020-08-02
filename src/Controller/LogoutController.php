@@ -4,13 +4,18 @@
 namespace App\Educar\Controller;
 
 
-class LogoutController implements InterfaceStartProcess
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+
+class LogoutController implements RequestHandlerInterface
 {
 
-    public function startProcess(): void
+    public function handle($request): ResponseInterface
     {
+        unset($_SESSION['logado']);
         session_unset();
         session_destroy();
-        header('Location: /login', false, 302);
+        return new Response(302, ['Location' => '/login']);
     }
 }

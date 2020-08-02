@@ -2,12 +2,18 @@
 
 namespace App\Educar\Controller;
 
+use App\Educar\Helper\FlashMessageTrait;
 use App\Educar\Infrastructure\Persistence\ConnectionFactory;
 use App\Educar\Infrastructure\Repository\PdoRepoStudents;
 use App\Educar\Model\Aluno;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class PersistenceController implements InterfaceStartProcess
+class PersistenceController implements RequestHandlerInterface
 {
+    use FlashMessageTrait;
+
     private PdoRepoStudents $repoAlunos;
 
     public function __construct()
@@ -16,21 +22,26 @@ class PersistenceController implements InterfaceStartProcess
         $this->repoAlunos = new PdoRepoStudents($pdo);
     }
 
-    public function startProcess(): void
+    public function handle($request): ResponseInterface
     {
-        $idGet = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-        $namePost = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-        $addressPost = filter_input(INPUT_POST, 'address', FILTER_SANITIZE_STRING);
+        $idGet = filter_var($request->getQueryParams()['id'],
+            FILTER_VALIDATE_INT);
+        $namePost = filter_var($request->getParsedBody()['name'],
+            FILTER_SANITIZE_STRING);
+        $addressPost = filter_var($request->getParsedBody()['address'],
+            FILTER_SANITIZE_STRING);
 
         if (!is_null($idGet) && $idGet !== false) {
-            $alunoId = $this->repoAlunos->find($idGet);
-            $aluno = new Aluno($alunoId['id'], $namePost, $addressPost);
+            $aluno = new Aluno($idGet, $namePost, $addressPost);
             $this->repoAlunos->save($aluno);
+            $this->definyMessage('success', 'Aluno atualizado com sucesso');
         } else {
             $aluno = new Aluno(null, $namePost, $addressPost);
             $this->repoAlunos->save($aluno);
+            $this->definyMessage('success', 'Aluno inserido com sucesso');
+
         }
 
-        header('Location: /listar-alunos', false, 302);
+        return new Response(302, ['Location' => '/listar-alunos']);
     }
 }

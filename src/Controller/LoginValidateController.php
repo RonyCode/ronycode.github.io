@@ -2,15 +2,18 @@
 
 namespace App\Educar\Controller;
 
+use App\Educar\Helper\FlashMessageTrait;
 use App\Educar\Infrastructure\Persistence\ConnectionFactory;
 use App\Educar\Infrastructure\Repository\PdoRepoUsers;
 use App\Educar\Model\Usuario;
-use PDO;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-session_start();
-
-class LoginValidateController implements InterfaceStartProcess
+class LoginValidateController implements RequestHandlerInterface
 {
+    use FlashMessageTrait;
+
     private PdoRepoUsers $repoUsers;
 
     public function __construct()
@@ -19,23 +22,32 @@ class LoginValidateController implements InterfaceStartProcess
         $this->repoUsers = new PdoRepoUsers($pdo);
     }
 
-    public function startProcess(): void
+    public function handle($request): ResponseInterface
     {
-        $userPost = filter_input(INPUT_POST, 'usuario', FILTER_SANITIZE_STRING);
-        $senhaPost = filter_input(INPUT_POST, 'senha', FILTER_SANITIZE_STRING);
+        $userPost = filter_var($request->getParsedBody()['usuario'],
+            FILTER_SANITIZE_STRING);
+        $senhaPost = filter_var($request->getParsedBody()['senha'],
+            FILTER_SANITIZE_STRING);
+
+        $response = new Response(302, ['Location' => '/login']);
 
         if (is_null($userPost) || $userPost === false) {
-            echo 'Usuário inválidos';
-            return;
+            $this->definyMessage('danger', 'O usuário digitado não é valido');
+            return $response;
         }
+        $usuario = new Usuario(null, $userPost, '', $senhaPost);
 
-        $usuario = $this->repoUsers->login($userPost, $senhaPost);
+        $senha = $this->repoUsers->login($usuario);
+        $usuario->senhaEstaCorreta($senha);
 
-        if (is_null($usuario) || $usuario === false) {
-            echo 'E-mail ou senha incorretos';
-            return;
+
+        if (is_null($senha) || $usuario->senhaEstaCorreta($senha) === false) {
+
+            $this->definyMessage('danger', 'Insira usuário ou senha válidos');
+            return $response;
         }
+        $_SESSION['usuario'] = true;
 
-        header('location: /listar-alunos', false, 302);
+        return new Response(302, ['Location' => '/listar-alunos']);
     }
 }

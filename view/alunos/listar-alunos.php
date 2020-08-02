@@ -1,8 +1,16 @@
 <?php
 
 include __DIR__ . '/../template/header.html.php'; ?>
+<?php if (isset($_SESSION['mensagem'])): ?>
+    <div class=" text-center mt-2 alert alert-<?= $_SESSION['tipo_mensagem'] ?>">
+        <?= $_SESSION['mensagem'] ?>
+    </div>
+    <?php
+    unset($_SESSION['mensagem']);
+    unset($_SESSION['tipo_mensagem']);
+endif; ?>
     <div class="container">
-        <p class="text mt-5">
+        <p class="">
             Este ambiente será para inserir aluno no DB
         </p>
 
@@ -35,11 +43,15 @@ include __DIR__ . '/../template/header.html.php'; ?>
             </tr>
             </tbody>
         </table>
+
         <div class="col-lg-12" style="text-align: right;">
-            <a href="/novo-aluno" class="btn btn-primary right">Adicionar</a>
+            <a href="/novo-aluno"
+               class="btn btn-primary right">Adicionar</a>
         </div>
     </div>
-    </div>
+
 
 <?php
+unset($_SESSION['mensagem']);
+unset($_SESSION['Tipo_mensagem']);
 include __DIR__ . '/../template/footer.html.php'; ?>

@@ -2,21 +2,20 @@
 
 namespace App\Educar\Controller;
 
-use App\Educar\Infrastructure\Persistence\ConnectionFactory;
-use App\Educar\Infrastructure\Repository\PdoRepoUsers;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class FormLoginController extends HtmlRenderController implements InterfaceStartProcess
+class FormLoginController extends HtmlRenderController implements RequestHandlerInterface
 {
 
 
-    public function startProcess(): void
+    public function handle($request): ResponseInterface
     {
-        echo $this->renderHtml(
-            'login/formulario.php',
-            [
-                'tittleDoc' => $tittleDoc = 'Login | Usuário',
-                'tittle' => $tittle = 'Iniciar Login'
-            ]
-        );
+        $html = $this->renderHtml('login/formulario.php', [
+            'tittleDoc' => $tittleDoc = 'Login | Usuário',
+            'tittle' => $tittle = 'Iniciar Login'
+        ]);
+        return new Response(202, [], $html);
     }
 }

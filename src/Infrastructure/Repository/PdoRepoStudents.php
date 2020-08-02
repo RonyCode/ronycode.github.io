@@ -28,11 +28,8 @@ class PdoRepoStudents implements StudentRepository
         $studentDataList = $stmt->fetchAll();
         $studentList = [];
         foreach ($studentDataList as $studentData) {
-            $studentList[] = new Aluno(
-                $studentData['id'],
-                $studentData['name'],
-                $studentData['address']
-            );
+            $studentList[] = new Aluno($studentData['id'], $studentData['name'],
+                $studentData['address']);
         }
 
         return $studentList;
@@ -49,16 +46,13 @@ class PdoRepoStudents implements StudentRepository
 
     private function insert(Aluno $aluno): bool
     {
-        $insertQuery =
-            'INSERT INTO alunos (name, address)VALUES (:name, :address);';
+        $insertQuery = 'INSERT INTO alunos (name, address)VALUES (:name, :address);';
         $stmt = $this->connection->prepare($insertQuery);
 
-        $success = $stmt->execute(
-            [
-                ':name' => $aluno->getName(),
-                ':address' => $aluno->getAddress(),
-            ]
-        );
+        $success = $stmt->execute([
+            ':name' => $aluno->getName(),
+            ':address' => $aluno->getAddress(),
+        ]);
         if ($success) {
             $aluno->defineId($this->connection->lastInsertId());
         }
@@ -68,8 +62,7 @@ class PdoRepoStudents implements StudentRepository
 
     private function update(Aluno $aluno): bool
     {
-        $updateQuery =
-            'UPDATE alunos SET name = :name, address = :address WHERE id = :id;';
+        $updateQuery = 'UPDATE alunos SET name = :name, address = :address WHERE id = :id;';
         $stmt = $this->connection->prepare($updateQuery);
         $stmt->bindValue(':name', $aluno->getName());
         $stmt->bindValue(':address', $aluno->getAddress());
@@ -80,21 +73,22 @@ class PdoRepoStudents implements StudentRepository
 
     public function remove(Aluno $aluno): bool
     {
-        $stmt = $this->connection->prepare(
-            'DELETE FROM alunos WHERE id = :id;'
-        );
+        $stmt = $this->connection->prepare('DELETE FROM alunos WHERE id = :id;');
         $stmt->bindValue(':id', $aluno->getId(), PDO::PARAM_INT);
 
         return $stmt->execute();
     }
 
-    public function find($id): array
+    public function find(Aluno $aluno): Aluno
     {
         $stmt = $this->connection->prepare('SELECT * FROM alunos WHERE id = :id;');
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':id', $aluno->getId(), PDO::PARAM_INT);
         $stmt->execute();
-
-        return $stmt->fetch();
+        if ($stmt->rowCount() > 0) {
+            $result = $stmt->fetch();
+            $aluno = new Aluno($result['id'], $result['name'],
+                $result['address']);
+        }
+        return $aluno;
     }
-
 }

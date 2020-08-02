@@ -1,7 +1,8 @@
 <?php
 
-use App\Educar\Infrastructure\Persistence\ConnectionFactory;
+use App\Educar\Model\Usuario;
 use App\Educar\Infrastructure\Repository\PdoRepoUsers;
+use App\Educar\Infrastructure\Persistence\ConnectionFactory;
 
 session_start();
 
@@ -14,11 +15,40 @@ $usuario = filter_input(INPUT_POST, 'usuario', FILTER_SANITIZE_STRING);
 // $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
 $senha = filter_input(INPUT_POST, 'senha', FILTER_SANITIZE_STRING);
 
-if ($repo->login($usuario, $senha) === true) {
-    echo "finalmente porraaa";
-} else {
-    echo 'que desgraça ainda nao consegui';
+$e = new Usuario(null, $usuario, '', $senha);
+$e->setSenha(password_hash($senha, PASSWORD_ARGON2I));
+$stmt = $pdo->prepare(
+    'SELECT * FROM usuarios WHERE usuario = :usuario AND senha=:senha LIMIT 1'
+);
+$stmt->bindValue(':usuario', $e->getUsuario());
+$stmt->bindValue(':senha', $e->getSenha());
+$stmt->execute();
+var_dump($e->getSenha());
+var_dump($senha);
+
+try {
+    if ($stmt->rowCount() > 0) {
+        $usuarioQuery = $stmt->fetch();
+        $teste = password_verify($senha, $usuarioQuery['senha']);
+        var_dump($teste);
+        if ($validate === false) {
+            throw new Exception();
+        } else {
+            echo 'Muito bom pode logar';
+        }
+    } else {
+        echo 'erro usuario não existe';
+        exit();
+    }
+} catch (Exception $ex) {
+    echo 'Erro ao validar senha';
 }
+
+if (!$validate === true) {
+    echo 'senha nao confere';
+    exit();
+}
+echo 'senha válida pode logar';
 ?>
 
 
