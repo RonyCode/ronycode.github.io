@@ -24,10 +24,14 @@ class LoginValidateController implements RequestHandlerInterface
 
     public function handle($request): ResponseInterface
     {
-        $userPost = filter_var($request->getParsedBody()['usuario'],
-            FILTER_SANITIZE_STRING);
-        $senhaPost = filter_var($request->getParsedBody()['senha'],
-            FILTER_SANITIZE_STRING);
+        $userPost = filter_var(
+            $request->getParsedBody()['usuario'],
+            FILTER_SANITIZE_STRING
+        );
+        $senhaPost = filter_var(
+            $request->getParsedBody()['senha'],
+            FILTER_SANITIZE_STRING
+        );
 
         $response = new Response(302, ['Location' => '/login']);
 
@@ -40,9 +44,7 @@ class LoginValidateController implements RequestHandlerInterface
         $senha = $this->repoUsers->login($usuario);
         $usuario->senhaEstaCorreta($senha);
 
-
         if (is_null($senha) || $usuario->senhaEstaCorreta($senha) === false) {
-
             $this->definyMessage('danger', 'Insira usuário ou senha válidos');
             return $response;
         }

@@ -12,6 +12,4 @@ abstract class HtmlRenderController
         $html = ob_get_clean();
         return $html;
     }
-
 }
-

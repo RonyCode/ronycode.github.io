@@ -10,9 +10,11 @@ use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class SaveLoginController extends HtmlRenderController implements RequestHandlerInterface
+class SaveLoginController extends HtmlRenderController implements
+    RequestHandlerInterface
 {
     use FlashMessageTrait;
+
     private PdoRepoUsers $repoUsers;
 
     public function __construct()
@@ -23,23 +25,30 @@ class SaveLoginController extends HtmlRenderController implements RequestHandler
 
     public function handle($request): ResponseInterface
     {
-
-
-        $usuario = filter_var($request->getQueryParams()['usuario'],
-            FILTER_SANITIZE_STRING);
-        $email = filter_var($request->getParsedBody()['email'],
-            FILTER_SANITIZE_STRING);
-        $senha = filter_var($request->getParsedBody()['senha'],
-            FILTER_VALIDATE_EMAIL);
+        $usuario = filter_var(
+            $request->getParsedBody()['usuario'],
+            FILTER_SANITIZE_STRING
+        );
+        $email = filter_var(
+            $request->getParsedBody()['email'],
+            FILTER_SANITIZE_STRING
+        );
+        $senha = filter_var(
+            $request->getParsedBody()['senha'],
+            \FILTER_SANITIZE_STRING
+        );
 
         $resposta = new Response(302, ['Location' => '/login-cadastrar']);
 
-        if (is_null($email) && is_null($senha) && $email === false && $senha === false) {
+        if (
+            is_null($email) &&
+            is_null($senha) &&
+            $email === false &&
+            $senha === false
+        ) {
             $this->definyMessage('danger', 'Usuário ou senha não existe');
             return $resposta;
-
         }
-
 
         $user = new Usuario(null, $usuario, $email, $senha);
 
@@ -52,5 +61,4 @@ class SaveLoginController extends HtmlRenderController implements RequestHandler
 
         return new Response(302, ['Location' => '/login']);
     }
-
 }

@@ -24,12 +24,18 @@ class PersistenceController implements RequestHandlerInterface
 
     public function handle($request): ResponseInterface
     {
-        $idGet = filter_var($request->getQueryParams()['id'],
-            FILTER_VALIDATE_INT);
-        $namePost = filter_var($request->getParsedBody()['name'],
-            FILTER_SANITIZE_STRING);
-        $addressPost = filter_var($request->getParsedBody()['address'],
-            FILTER_SANITIZE_STRING);
+        $idGet = filter_var(
+            $request->getQueryParams()['id'],
+            FILTER_VALIDATE_INT
+        );
+        $namePost = filter_var(
+            $request->getParsedBody()['name'],
+            FILTER_SANITIZE_STRING
+        );
+        $addressPost = filter_var(
+            $request->getParsedBody()['address'],
+            FILTER_SANITIZE_STRING
+        );
 
         if (!is_null($idGet) && $idGet !== false) {
             $aluno = new Aluno($idGet, $namePost, $addressPost);
@@ -39,7 +45,6 @@ class PersistenceController implements RequestHandlerInterface
             $aluno = new Aluno(null, $namePost, $addressPost);
             $this->repoAlunos->save($aluno);
             $this->definyMessage('success', 'Aluno inserido com sucesso');
-
         }
 
         return new Response(302, ['Location' => '/listar-alunos']);

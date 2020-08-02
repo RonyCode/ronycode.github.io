@@ -9,7 +9,8 @@ use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class FormEditController extends HtmlRenderController implements RequestHandlerInterface
+class FormEditController extends HtmlRenderController implements
+    RequestHandlerInterface
 {
     private PdoRepoStudents $repoAlunos;
 
@@ -26,21 +27,15 @@ class FormEditController extends HtmlRenderController implements RequestHandlerI
         if ($id === false || is_null($id)) {
             return new Response(302, ['Location' => '/listar-alunos']);
         }
-        $alunoPost = new Aluno($id, '', ''
-
-        );
+        $alunoPost = new Aluno($id, '', '');
 
         $aluno = $this->repoAlunos->find($alunoPost);
 
-
         $html = $this->renderHtml('alunos/formulario-aluno.php', [
-                'tittleDoc' => $tittleDoc = 'Alterar cadastro | Cadastro',
-                'tittle' => $tittle = 'Alterar cadastro: ' . $aluno->getName(),
-                'aluno' => $aluno,
-
-            ]
-
-        );
+            'tittleDoc' => ($tittleDoc = 'Alterar cadastro | Cadastro'),
+            'tittle' => ($tittle = 'Alterar cadastro: ' . $aluno->getName()),
+            'aluno' => $aluno,
+        ]);
         return new Response(202, [], $html);
     }
 }

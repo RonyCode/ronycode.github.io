@@ -13,6 +13,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 class RemoveController implements RequestHandlerInterface
 {
     use FlashMessageTrait;
+
     private PdoRepoStudents $repoAlunos;
 
     public function __construct()

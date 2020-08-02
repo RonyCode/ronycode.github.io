@@ -8,7 +8,8 @@ use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class ListAlunosController extends HtmlRenderController implements RequestHandlerInterface
+class ListAlunosController extends HtmlRenderController implements
+    RequestHandlerInterface
 {
     private $repositorioAlunos;
 
@@ -25,7 +26,7 @@ class ListAlunosController extends HtmlRenderController implements RequestHandle
 
         $tittle = 'Bem Vindo: ' . $_SESSION['logado'];
 
-        $html= $this->renderHtml('alunos/listar-alunos.php', [
+        $html = $this->renderHtml('alunos/listar-alunos.php', [
             'alunos' => $alunos,
             'tittleDoc' => $tittleDoc,
             'tittle' => $tittle,
