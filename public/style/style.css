@@ -1,8 +1,19 @@
-body {
-    background: black;
-<<<<<<< HEAD
+.container-login {
+
+
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 4px;
+    -webkit-box-shadow: 2px 3px 20px 7px rgba(0, 0, 0, 0.33);
+    -moz-box-shadow: 2px 3px 20px 7px rgba(0, 0, 0, 0.33);
+    box-shadow: 2px 3px 20px 7px rgba(0, 0, 0, 0.33);
+    padding: 3px 40px;
+    margin-top: 100px;
 }
-=======
-    margin-top: 90px;
+
+.recupera-senha {
+    font-size: 14px;
+    text-decoration: underline;
+
 }
->>>>>>> fa4a63d0a6df69de96489de4c0306d8f8195f413

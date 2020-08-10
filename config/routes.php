@@ -5,13 +5,16 @@ use App\Educar\Controller\{ErrorController,
     FormEditController,
     FormInsertController,
     FormLoginController,
+    FormRecoverPasswordController,
     HomeController,
     ListAlunosController,
     LoginValidateController,
     LogoutController,
     PersistenceController,
+    RecoverPasswordController,
     RemoveController,
-    SaveLoginController};
+    SaveLoginController
+};
 
 $routes = [
     '/login' => FormLoginController::class,
@@ -26,6 +29,8 @@ $routes = [
     '/remover-aluno' => RemoveController::class,
     '/editar-aluno' => FormEditController::class,
     '/error' => ErrorController::class,
+    '/recupera-senha-form' => FormRecoverPasswordController::class,
+    '/recupera-senha' => RecoverPasswordController::class,
 ];
 
 return $routes;

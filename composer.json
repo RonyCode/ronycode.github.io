@@ -16,7 +16,8 @@
     "php-http/message-factory": "^1.0@dev",
     "nyholm/psr7": "^1.0@dev",
     "psr/http-server-handler": "^1.0@dev",
-    "php-di/php-di": "dev-master"
+    "php-di/php-di": "dev-master",
+    "phpmailer/phpmailer": "dev-master"
   },
   "autoload": {
     "psr-4": {
