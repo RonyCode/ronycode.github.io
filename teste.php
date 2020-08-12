@@ -4,13 +4,15 @@ use App\Educar\Helper\Email;
 use App\Educar\Model\Usuario;
 
 require __DIR__ . '/vendor/autoload.php';
-require __DIR__ . '/config/config.php';
+
 
 $user = new Usuario(null, 'ronyandersonpc@gmail.com', '');
 
 
 $email = new Email();
-$body = $email->templateEmail($user);
+$body = $email->templateEmail($user, $hash);
+
+
 $email->add(
     'Solicitação de troca de senha',
     $body,

@@ -6,7 +6,7 @@ use Nyholm\Psr7Server\ServerRequestCreator;
 use Psr\Http\Server\RequestHandlerInterface;
 
 require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/../config/config.php';
+
 
 ConnectionFactory::createConnection();
 
@@ -20,8 +20,9 @@ if (!array_key_exists($getUrl, $routes)) {
 session_start();
 
 $rotaLogin = stripos($getUrl, 'login');
+$rotaSenha = stripos($getUrl, 'senha');
 
-if (!isset($_SESSION['logado']) && $rotaLogin === false && $getUrl !== '/home' && $getUrl !== '/recupera-senha-form' && $getUrl !== '/recupera-senha') {
+if (!isset($_SESSION['logado']) && $rotaLogin === false && $rotaSenha === false && $getUrl !== '/home' && $getUrl === '/recadastra-password') {
     header('Location: /login', false, 302);
     exit();
 }

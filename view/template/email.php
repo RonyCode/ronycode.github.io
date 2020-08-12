@@ -26,25 +26,28 @@
             margin-right: auto;" class="header">
         <div style="  width: 150px;
             border-right: solid grey 2px;" class="logo1">
-            <img src="https://i.ibb.co/bBkyW9q/ic-school-128-28729.png" alt="logo2" width="128" height="150">
+            <img src="https://i.ibb.co/bBkyW9q/ic-school-128-28729.png"
+                 alt="logo2" width="128" height="150">
         </div>
         <div class="titulo">
             <h1 style="  width: 660px;
             height: 150px;
             text-align: center;
             font-size: 3.5em;
-            font-family: Arial, Helvetica, sans-serif;">Centro Educacional Espaço Educar
+            font-family: Arial, Helvetica, sans-serif;">Centro Educacional
+                Espaço Educar
             </h1>
 
         </div>
 
         <div style=" width: 150px;
             border-left: solid grey 2px;" class="logo2">
-            <img src="https://i.ibb.co/ykDZ8My/1490886282-18-school-building-82486.png" alt="logo1" alt="logo1"
+            <img src="https://i.ibb.co/ykDZ8My/1490886282-18-school-building-82486.png"
+                 alt="logo1" alt="logo1"
                  width="128" height="150">
         </div>
     </div>
-
+    <?= $usuario = 'ronypc@outlook.com'; ?>
 </header>
 <div style="     position: relative;
             width: 960px;
@@ -55,16 +58,30 @@
             font-family: cursive;
             background-color: ghostwhite;
             font-size: 1.2em;" class="content">
-    <H1 style="  padding-top: 50px;" align="center">Solicitação de troca de senha</H1>
+    <H1 style="  padding-top: 50px;" align="center">Solicitação de troca de
+        senha</H1>
     <p style="  padding: 25px 120px;
-            text-align: justify;">Caro usuário, foi solicitado a troca se sua senha em nosso sistema,
+            text-align: justify;">Caro usuário(a) <?php
+        echo $usuario; ?>, foi solicitado a troca se sua senha em
+        nosso
+        sistema,
         se vc solicitou a recuperação da sua
         senha acesse o link abaixo:</p>
-
-    <a style=" padding-left: 120px;" href="http://localhost/recupera-senha"> clique aqui </a>
+    <form action="http://localhost/valida-senha" method="post">
+        <input hidden="hidden" name="email" type="text"
+               value="<?= $usuario ?>">
+        <button style=" margin-left: 120px; border: none;font-family: Arial;background: none;font-size: 0.8em;text-decoration: underline;color: dodgerblue; cursor: pointer;"
+                type="submit">Clique
+            aqui
+        </button>
+    </form>
+    <!--    <a style=" padding-left: 120px;" href="http://localhost/recadastra-senha">-->
+    <!--        clique aqui </a>-->
     <p style="  padding: 25px 120px;
-            text-align: justify;"> A equipe Espaço Educar orienta que nenhum e-mail, SMS, ou ligação é
-        realizado aos nosso clientes pedindo informações a respeito de sua senha.
+            text-align: justify;"> A equipe Espaço Educar orienta que nenhum
+        e-mail, SMS, ou ligação é
+        realizado aos nosso clientes pedindo informações a respeito de sua
+        senha.
         Para mais informações entre em contato conosco</p>
 </div>
 <div style="    position: relative;
@@ -73,7 +90,8 @@
             height: 130px;
             margin-left: auto;
             margin-right: auto;" class="footer">
-    <img src="https://i.ibb.co/dML6YXK/banner-contato1.jpg" alt="contato" width="960" height="130">
+    <img src="https://i.ibb.co/dML6YXK/banner-contato1.jpg" alt="contato"
+         width="960" height="130">
 </div>
 <p style=" text-align: center;
             width: 960px;

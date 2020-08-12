@@ -13,7 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class RecoverPasswordController implements RequestHandlerInterface
+class EmailRecoverPasswordController implements RequestHandlerInterface
 {
     use FlashMessageTrait;
 
@@ -37,7 +37,7 @@ class RecoverPasswordController implements RequestHandlerInterface
         );
 
         $usuario = new Usuario(null, $email2, '');
-        $validate = $this->repoUsers->sendEmail($usuario);
+        $validate = $this->repoUsers->recoverPassword($usuario);
 
 
         if ($validate === false) {
@@ -45,8 +45,12 @@ class RecoverPasswordController implements RequestHandlerInterface
             return new Response(
                 302, ['Location' => '/recupera-senha-form']
             );
+        } else {
+            $this->definyMessage(
+                'success',
+                'Senha enviada com sucesso, por favor confirme os dados em seu e-mail informado'
+            );
         }
-        $this->definyMessage('success', 'Senha recuperada com sucesso');
-        return new Response(200, ['Location' => ' / login']);
+        return new Response(200, ['Location' => ' /login']);
     }
 }

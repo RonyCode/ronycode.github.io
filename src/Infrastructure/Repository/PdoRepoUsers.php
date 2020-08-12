@@ -107,14 +107,14 @@ class PdoRepoUsers implements UserRepository
         if ($stmt->rowCount() > 0) {
             $stmt->fetch();
             $this->addDadosRecover($usuario);
-            $this->sendEmail($usuario);
+
             return true;
         } else {
             return false;
         }
     }
 
-    private function addDadosRecover(Usuario $usuario): Usuario
+    private function addDadosRecover(Usuario $usuario): bool
     {
         $stmt = $this->connection->prepare(
             'INSERT INTO recupera_senhas (email, hash) VALUES (:email, :hash);'
@@ -125,15 +125,15 @@ class PdoRepoUsers implements UserRepository
             password_hash($usuario->getEmail(), PASSWORD_ARGON2I)
         );
         $stmt->execute();
-        if ($stmt->rowCount() > 0) {
+        if ($row = $stmt->rowCount() > 0) {
             $this->sendEmail($usuario);
-            return $usuario;
+            return true;
         } else {
-            exit();
+            return false;
         }
     }
 
-    public function sendEmail(Usuario $usuario): Usuario
+    private function sendEmail(Usuario $usuario): bool
     {
         $email = new Email();
         $bodyEmail = $email->templateEmail($usuario);
@@ -143,8 +143,44 @@ class PdoRepoUsers implements UserRepository
             $usuario->getEmail(),
             'Ronycode Dev'
         )->send();
-
-        return $usuario;
+        if ($email === true) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
+
+    public function validateUpdatePassword(Usuario $usuario): bool
+    {
+        $stmt = $this->connection->prepare(
+            'SELECT * FROM recupera_senhas WHERE email = :email'
+        );
+        $stmt->bindValue(':email', $usuario->getEmail());
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            $row = $stmt->fetch();
+            var_dump(password_verify($usuario->getEmail(), $row['hash']));
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function findUser(Usuario $usuario): Usuario
+    {
+        $stmt = $this->connection->prepare(
+            'SELECT * FROM usuarios WHERE email = :email'
+        );
+        $stmt->bindValue(':email', $usuario->getEmail());
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            $row = $stmt->fetch();
+            $usuario = new Usuario($row['id'], $row['email'], $row['senha']);
+            var_dump($usuario);
+        }
+        var_dump($usuario);
+        return $usuario;
+    }
 }
+

@@ -4,21 +4,27 @@
 namespace App\Educar\Controller;
 
 
+use App\Educar\Helper\FlashMessageTrait;
+use App\Educar\Infrastructure\Persistence\ConnectionFactory;
+use App\Educar\Infrastructure\Repository\PdoRepoUsers;
 use Nyholm\Psr7\Response;
+use PDO;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class FormRecoverPasswordController extends HtmlRenderController implements
+class FormUpdatePasswordController extends HtmlRenderController implements
     RequestHandlerInterface
 {
+    use FlashMessageTrait;
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $tittleDoc = 'Email | Recuperar senha';
-        $tittle = 'E-mail de recuperação de senha';
+
+        $tittle = 'Insira nova senha';
+        $tittleDoc = 'Nova senha';
         $html = $this->renderHtml(
-            'login/formulario-recupera-senha-email.php',
+            'login/formulario-recadastra-senha.php',
             [
                 'tittle' => $tittle,
                 'tittleDoc' => $tittleDoc
