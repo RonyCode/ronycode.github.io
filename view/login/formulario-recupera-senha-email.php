@@ -3,15 +3,16 @@
 include __DIR__ . '/../template/header.html.php'; ?>
     <div class="container-login">
         <div>
-            <?php
-            if (isset($_SESSION['mensagem'])): ?>
-                <div class=" text-center mt-2 alert alert-<?= $_SESSION['tipo_mensagem'] ?>">
+            <?php if (isset($_SESSION['mensagem'])): ?>
+                <div class=" text-center mt-2 alert alert-<?= $_SESSION[
+                    'tipo_mensagem'
+                ] ?>">
                     <?= $_SESSION['mensagem'] ?>
                 </div>
                 <?php
                 unset($_SESSION['mensagem']);
                 unset($_SESSION['tipo_mensagem']);
-            endif; ?>
+                endif; ?>
         </div>
 
         <form action="/email-recupera-senha" method="post">
@@ -32,5 +33,4 @@ include __DIR__ . '/../template/header.html.php'; ?>
 
     </div>
 
-<?php
-include __DIR__ . '/../template/footer.html.php'; ?>
+<?php include __DIR__ . '/../template/footer.html.php'; ?>

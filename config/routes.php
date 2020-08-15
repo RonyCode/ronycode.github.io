@@ -1,6 +1,7 @@
 <?php
 
-use App\Educar\Controller\{ErrorController,
+use App\Educar\Controller\{
+    ErrorController,
     FormCreateLoginController,
     FormEditController,
     FormInsertController,
@@ -34,7 +35,7 @@ $routes = [
     '/error' => ErrorController::class,
     '/recupera-senha-form' => FormRecoverPasswordController::class,
     '/email-recupera-senha' => EmailRecoverPasswordController::class,
-    '/recadastra-password' => FormUpdatePasswordController::class,
+    '/recadastra-senha' => FormUpdatePasswordController::class,
     '/valida-senha' => ValidatePasswordEmailController::class,
     '/nova-senha' => UpdatePasswordController::class,
 ];

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Educar\Helper;
-
 
 use App\Educar\Controller\HtmlRenderController;
 use App\Educar\Model\Usuario;
@@ -23,7 +21,6 @@ class Email extends HtmlRenderController
         $this->mail->isSMTP();
         $this->mail->isHTML(true);
         $this->mail->setLanguage('br');
-
 
         $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $this->mail->CharSet = PHPMailer::CHARSET_UTF8;
@@ -95,5 +92,4 @@ class Email extends HtmlRenderController
         );
         return $body;
     }
-
 }

@@ -46,28 +46,24 @@ class PdoRepoUsers implements UserRepository
 
     private function insertUser(Usuario $usuario): bool
     {
-        $insertQuery = 'INSERT INTO usuarios (email, senha) VALUES (:email, :senha);';
+        $insertQuery =
+            'INSERT INTO usuarios (email, senha) VALUES (:email, :senha);';
         $stmt = $this->connection->prepare($insertQuery);
         try {
-            $stmt->execute(
-                [
-                    ':email' => $usuario->getEmail(),
-                    ':senha' => \password_hash(
-                        $usuario->getSenha(),
-                        \PASSWORD_ARGON2I
-                    ),
-                ]
-            );
+            $stmt->execute([
+                ':email' => $usuario->getEmail(),
+                ':senha' => \password_hash(
+                    $usuario->getSenha(),
+                    \PASSWORD_ARGON2I
+                ),
+            ]);
 
             $usuario->defineIdUser($this->connection->lastInsertId());
             // VALIDA SE USUÁRIO JÁ TEM CADASTRO E IMPEDE NOVO CADASTRO//
         } catch (\PDOException $e) {
             if ($e->getCode() === '23000') {
                 header('Location: /login');
-                $this->definyMessage(
-                    'danger',
-                    'Usuário já cadastrado'
-                );
+                $this->definyMessage('danger', 'Usuário já cadastrado');
                 exit();
             }
         } finally {
@@ -77,10 +73,14 @@ class PdoRepoUsers implements UserRepository
 
     private function updateUser(Usuario $usuario): bool
     {
-        $updateQuery = 'UPDATE usuarios SET email = :email, senha = :senha WHERE id = :id;';
+        $updateQuery =
+            'UPDATE usuarios SET email = :email, senha = :senha WHERE id = :id;';
         $stmt = $this->connection->prepare($updateQuery);
         $stmt->bindValue(':email', $usuario->getEmail());
-        $stmt->bindValue(':senha', $usuario->getSenha());
+        $stmt->bindValue(
+            ':senha',
+            password_hash($usuario->getSenha(), \PASSWORD_ARGON2I)
+        );
         $stmt->bindValue(':id', $usuario->getId(), PDO::PARAM_INT);
 
         return $stmt->execute();
@@ -96,76 +96,7 @@ class PdoRepoUsers implements UserRepository
         return $stmt->execute();
     }
 
-    public function recoverPassword(Usuario $usuario): bool
-    {
-        $stmt = $this->connection->prepare(
-            'SELECT * FROM usuarios WHERE email = :email LIMIT 1'
-        );
-        $stmt->bindValue(':email', $usuario->getEmail());
-        $stmt->execute();
 
-        if ($stmt->rowCount() > 0) {
-            $stmt->fetch();
-            $this->addDadosRecover($usuario);
-
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private function addDadosRecover(Usuario $usuario): bool
-    {
-        $stmt = $this->connection->prepare(
-            'INSERT INTO recupera_senhas (email, hash) VALUES (:email, :hash);'
-        );
-        $stmt->bindValue(':email', $usuario->getEmail());
-        $stmt->bindValue(
-            ':hash',
-            password_hash($usuario->getEmail(), PASSWORD_ARGON2I)
-        );
-        $stmt->execute();
-        if ($row = $stmt->rowCount() > 0) {
-            $this->sendEmail($usuario);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private function sendEmail(Usuario $usuario): bool
-    {
-        $email = new Email();
-        $bodyEmail = $email->templateEmail($usuario);
-        $email->add(
-            'Solicitação para troca de sennha',
-            $bodyEmail,
-            $usuario->getEmail(),
-            'Ronycode Dev'
-        )->send();
-        if ($email === true) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
-    public function validateUpdatePassword(Usuario $usuario): bool
-    {
-        $stmt = $this->connection->prepare(
-            'SELECT * FROM recupera_senhas WHERE email = :email'
-        );
-        $stmt->bindValue(':email', $usuario->getEmail());
-        $stmt->execute();
-        if ($stmt->rowCount() > 0) {
-            $row = $stmt->fetch();
-            var_dump(password_verify($usuario->getEmail(), $row['hash']));
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     public function findUser(Usuario $usuario): Usuario
     {
@@ -177,10 +108,8 @@ class PdoRepoUsers implements UserRepository
         if ($stmt->rowCount() > 0) {
             $row = $stmt->fetch();
             $usuario = new Usuario($row['id'], $row['email'], $row['senha']);
-            var_dump($usuario);
         }
-        var_dump($usuario);
+
         return $usuario;
     }
 }
-

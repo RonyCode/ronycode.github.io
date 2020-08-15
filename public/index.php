@@ -22,7 +22,7 @@ session_start();
 $rotaLogin = stripos($getUrl, 'login');
 $rotaSenha = stripos($getUrl, 'senha');
 
-if (!isset($_SESSION['logado']) && $rotaLogin === false && $rotaSenha === false && $getUrl !== '/home' && $getUrl === '/recadastra-password') {
+if (!isset($_SESSION['logado']) && $rotaLogin === false && $rotaSenha === false && $getUrl !== '/home') {
     header('Location: /login', false, 302);
     exit();
 }

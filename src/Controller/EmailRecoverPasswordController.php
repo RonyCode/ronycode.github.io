@@ -6,6 +6,7 @@ namespace App\Educar\Controller;
 
 use App\Educar\Helper\FlashMessageTrait;
 use App\Educar\Infrastructure\Persistence\ConnectionFactory;
+use App\Educar\Infrastructure\Repository\PdoRepoEmail;
 use App\Educar\Infrastructure\Repository\PdoRepoUsers;
 use App\Educar\Model\Usuario;
 use Nyholm\Psr7\Response;
@@ -17,12 +18,12 @@ class EmailRecoverPasswordController implements RequestHandlerInterface
 {
     use FlashMessageTrait;
 
-    private PdoRepoUsers $repoUsers;
+    private PdoRepoEmail $repo;
 
     public function __construct()
     {
         $pdo = ConnectionFactory::createConnection();
-        $this->repoUsers = new PdoRepoUsers($pdo);
+        $this->repo = new PdoRepoEmail($pdo);
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
@@ -37,7 +38,7 @@ class EmailRecoverPasswordController implements RequestHandlerInterface
         );
 
         $usuario = new Usuario(null, $email2, '');
-        $validate = $this->repoUsers->recoverPassword($usuario);
+        $validate = $this->repo->recoverPassword($usuario);
 
 
         if ($validate === false) {
