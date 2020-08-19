@@ -8,8 +8,10 @@ use App\Educar\Model\Usuario;
 
 interface EmailRepository
 {
-    public function recoverPassword(Usuario $usuario): bool;
+    public function verifyAndAddHashPassword(Usuario $usuario): bool;
 
-    public function validateUpdatePassword(Usuario $usuario): bool;
+    public function validateUpdatePassword(
+        Usuario $usuario
+    ): bool;
 
 }

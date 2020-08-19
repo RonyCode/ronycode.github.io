@@ -46,6 +46,7 @@
         </div>
     </div>
 
+
 </header>
 <div style="     position: relative;
             width: 960px;
@@ -59,22 +60,20 @@
     <H1 style="  padding-top: 50px;" align="center">Solicitação de troca de
         senha</H1>
     <p style="  padding: 25px 120px;
-              text-align: justify;">Caro usuário(a) <?
-    = $usuario->getEmail();?>,
+              /* text-align: justify;">Caro
+        usuário(a) <?= $usuario->getEmail() ?>
+        ,
         foi solicitado a troca se sua senha em
         nosso
         sistema,
         se vc solicitou a recuperação da sua
         senha acesse o link abaixo:</p>
 
-    <form action="http://localhost/valida-senha" method="post">
-        <input name="email" value="<?
-        = $usuario->getEmail();?>" type="hidden">
-        <button style=" margin-left: 120px; border: none;font-family: Arial;background: none;font-size: 0.8em;text-decoration: underline;color: dodgerblue; cursor: pointer;"
-                type="submit">Clique aqui
-        </button>
 
-    </form>
+    <a style="padding-left: 120px;"
+       href="http://localhost/confirma-senha?hash=<?= $hash ?>">Clique
+        aqui</a>
+
     <p style="  padding: 25px 120px;
             text-align: justify;"> A equipe Espaço Educar orienta que nenhum
         e-mail, SMS, ou ligação é

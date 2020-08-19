@@ -38,7 +38,7 @@ class EmailRecoverPasswordController implements RequestHandlerInterface
         );
 
         $usuario = new Usuario(null, $email2, '');
-        $validate = $this->repo->recoverPassword($usuario);
+        $validate = $this->repo->verifyAndAddHashPassword($usuario);
 
 
         if ($validate === false) {

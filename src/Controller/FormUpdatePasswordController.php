@@ -1,45 +1,42 @@
 <?php
 
-// session_unset();
-// session_destroy();
 
 namespace App\Educar\Controller;
 
 use App\Educar\Helper\FlashMessageTrait;
-use App\Educar\Infrastructure\Persistence\ConnectionFactory;
-use App\Educar\Infrastructure\Repository\PdoRepoUsers;
+use App\Educar\Infrastructure\Repository\PdoRepoEmail;
 use Nyholm\Psr7\Response;
-use PDO;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 
-class FormUpdatePasswordController extends HtmlRenderController implements
-    RequestHandlerInterface
+class FormUpdatePasswordController extends HtmlRenderController
 {
     use FlashMessageTrait;
 
+    private PdoRepoEmail $repo;
+
+
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        if (!isset($_SESSION['logado']) && !isset($_SESSION['usuario'])) {
-            $this->definyMessage(
-                'danger',
-                'houve um erro com o link informado, por favor tente novamente a recuperação de senha.'
-            );
-            return new Response(302, ['Location' => '/logout']);
+        if (!isset($_SESSION['hash_valida'])) {
+            var_dump($_SESSION['hash_valida']);
+            $this->definyMessage('danger',
+                'Essa página só pode ser acessada através do link, por favor tente novamente');
+            unset($_SESSION['hash_valida']);
+            header('Location: /login');
         }
-        $this->definyMessage(
-            'warning',
-            'Caro usuário, por motivos de segurança essa pagina sera bloqueada em 30 segundos'
-        );
-        header('refresh:30; url=http://localhost/logout');
 
-        $tittle = 'Insira nova senha';
+
+        $tittle = 'Digite nova senha';
         $tittleDoc = 'Nova senha';
-        $html = $this->renderHtml('login/formulario-recadastra-senha.php', [
-            'tittle' => $tittle,
-            'tittleDoc' => $tittleDoc,
-        ]);
+        $html = $this->renderHtml(
+            'login/formulario-recadastra-senha.php',
+            [
+                'tittle' => $tittle,
+                'tittleDoc' => $tittleDoc,
+            ]
+        );
+        unset($_SESSION['hash_valida']);
         return new Response(302, [], $html);
     }
 }

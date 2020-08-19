@@ -1,20 +1,18 @@
 <?php
 
 include __DIR__ . '/../template/header.html.php'; ?>
-<div class="container-login">
-    <div>
-        <?php if (isset($_SESSION['mensagem'])): ?>
-            <div class=" text-center mt-2 alert alert-<?= $_SESSION[
-                'tipo_mensagem'
-            ] ?>">
-                <?= $_SESSION['mensagem'] ?>
-            </div>
-            <?php unset(
-                $_SESSION['mensagem'],
-                $_SESSION['tipo_mensagem']
-            );endif; ?>
-    </div>
+<div class="container">
+    <?php if (isset($_SESSION['mensagem'])): ?>
+        <div class=" text-center mt-2 alert alert-<?= $_SESSION['tipo_mensagem'] ?>">
+            <?= $_SESSION['mensagem'] ?>
+        </div>
+        <?php
 
+        unset($_SESSION['mensagem']);
+        unset($_SESSION['tipo_mensagem']);
+    endif; ?>
+</div>
+<div class="container-login">
     <form action="/login-realizado" method="post">
         <div class="form-group">
             <label for="email">Digite e-mail:</label>

@@ -2,7 +2,6 @@
 
 namespace App\Educar\Infrastructure\Repository;
 
-use App\Educar\Helper\Email;
 use App\Educar\Helper\FlashMessageTrait;
 use App\Educar\Model\Repository\UserRepository;
 use App\Educar\Model\Usuario;
@@ -50,13 +49,15 @@ class PdoRepoUsers implements UserRepository
             'INSERT INTO usuarios (email, senha) VALUES (:email, :senha);';
         $stmt = $this->connection->prepare($insertQuery);
         try {
-            $stmt->execute([
-                ':email' => $usuario->getEmail(),
-                ':senha' => \password_hash(
-                    $usuario->getSenha(),
-                    \PASSWORD_ARGON2I
-                ),
-            ]);
+            $stmt->execute(
+                [
+                    ':email' => $usuario->getEmail(),
+                    ':senha' => \password_hash(
+                        $usuario->getSenha(),
+                        \PASSWORD_ARGON2I
+                    ),
+                ]
+            );
 
             $usuario->defineIdUser($this->connection->lastInsertId());
             // VALIDA SE USUÁRIO JÁ TEM CADASTRO E IMPEDE NOVO CADASTRO//
@@ -97,7 +98,6 @@ class PdoRepoUsers implements UserRepository
     }
 
 
-
     public function findUser(Usuario $usuario): Usuario
     {
         $stmt = $this->connection->prepare(
@@ -107,6 +107,7 @@ class PdoRepoUsers implements UserRepository
         $stmt->execute();
         if ($stmt->rowCount() > 0) {
             $row = $stmt->fetch();
+            $_SESSION['email_recover'] = $row['email'];
             $usuario = new Usuario($row['id'], $row['email'], $row['senha']);
         }
 

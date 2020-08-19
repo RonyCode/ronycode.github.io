@@ -5,7 +5,6 @@ namespace App\Educar\Helper;
 use App\Educar\Controller\HtmlRenderController;
 use App\Educar\Model\Usuario;
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
 
 class Email extends HtmlRenderController
 {
@@ -17,7 +16,6 @@ class Email extends HtmlRenderController
     {
         $this->mail = new PHPMailer(true);
         $this->data = new \stdClass();
-
         $this->mail->isSMTP();
         $this->mail->isHTML(true);
         $this->mail->setLanguage('br');
@@ -82,12 +80,13 @@ class Email extends HtmlRenderController
         return $this->error;
     }
 
-    public function templateEmail(Usuario $usuario): string
+    public function templateEmail(Usuario $usuario, $hash): string
     {
         $body = $this->renderHtml(
             'template/email.php',
             [
                 'usuario' => $usuario,
+                'hash' => $hash
             ]
         );
         return $body;

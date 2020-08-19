@@ -25,6 +25,20 @@ class UpdatePasswordController implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
+        $reponse = new Response(302, ['Location' => '/login']);
+
+        if (!isset($_POST['email']) || !isset($_POST['senha']) || !isset($_POST['senha_confere'])) {
+            $this->definyMessage(
+                'danger',
+                'Houve um problema com o link tente novamente'
+            );
+            return $reponse;
+        }
+        $email = filter_var(
+            $request->getParsedBody()['email'],
+            FILTER_VALIDATE_EMAIL
+        );
+
         $senha = filter_var(
             $request->getParsedBody()['senha'],
             FILTER_SANITIZE_STRING
@@ -33,16 +47,28 @@ class UpdatePasswordController implements RequestHandlerInterface
             $request->getParsedBody()['senha_confere'],
             FILTER_SANITIZE_STRING
         );
+        if (!isset($_SESSION['email_recover']) || $_SESSION['email_recover'] !== $email) {
+            $this->definyMessage(
+                'danger',
+                'E-mail digitado não corresponde com e-mail do link enviado '
 
-        $reponse = new Response(302, ['Location' => '/recadastra-password']);
+            );
+            unset($_SESSION['email_recover']);
+            return $reponse;
+        }
 
-        if (
+
+        if (is_null($email) ||
             is_null($senha) ||
             is_null($senhaConfere) ||
+            $email === false ||
             $senha === false ||
-            $senhaConfere === false
-        ) {
-            $this->definyMessage('danger', 'A senha digitada é invalida');
+            $senhaConfere === false) {
+            $this->definyMessage(
+                'danger',
+                'E - mail digitado não corresponde com e - mail do link enviado ou  senha digitada é invalida'
+            );
+            unset($_SESSION['email_recover']);
             return $reponse;
         }
 
@@ -50,20 +76,24 @@ class UpdatePasswordController implements RequestHandlerInterface
             $_SESSION['senha_confere'] = true;
             $this->definyMessage(
                 'danger',
-                'A senha digitada não confere com a anterior'
+                'A senha digitada não confere com a anterior, por favor acesse o link novamente'
             );
             return $reponse;
         }
 
-        $usurario = new Usuario(null, $_SESSION['usuario'], $senha);
+        $usurario = new Usuario(null, $email, $senha);
+
 
         $usurarioEncontrado = $this->repo->findUser($usurario);
         $usurarioEncontrado->setSenha($senha);
         $novaSenha = $this->repo->saveUser($usurarioEncontrado);
         if ($novaSenha === false) {
             $this->definyMessage('danger', 'Usuário não encontrado');
-            return new Response(302, ['Location' => '/logout']);
+            return new Response(302, ['Location' => ' /login']);
         }
-        return new Response(302, ['Location' => '/login']);
+
+        $this->definyMessage('success', 'Nova senha cadastrada com sucesso!');
+        session_destroy();
+        return new Response(302, ['Location' => ' /login']);
     }
 }

@@ -1,7 +1,8 @@
 <?php
 
-use App\Educar\Controller\{
+use App\Educar\Controller\{EmailRecoverPasswordController,
     ErrorController,
+    FormConfirmEmailController,
     FormCreateLoginController,
     FormEditController,
     FormInsertController,
@@ -13,12 +14,10 @@ use App\Educar\Controller\{
     LoginValidateController,
     LogoutController,
     PersistenceController,
-    EmailRecoverPasswordController,
     RemoveController,
     SaveLoginController,
     UpdatePasswordController,
-    ValidatePasswordEmailController
-};
+    ValidatePasswordEmailController};
 
 $routes = [
     '/login' => FormLoginController::class,
@@ -35,9 +34,9 @@ $routes = [
     '/error' => ErrorController::class,
     '/recupera-senha-form' => FormRecoverPasswordController::class,
     '/email-recupera-senha' => EmailRecoverPasswordController::class,
-    '/recadastra-senha' => FormUpdatePasswordController::class,
-    '/valida-senha' => ValidatePasswordEmailController::class,
+    '/confirma-senha' => ValidatePasswordEmailController::class,
     '/nova-senha' => UpdatePasswordController::class,
+    '/recadastra-senha' => FormUpdatePasswordController::class,
 ];
 
 return $routes;

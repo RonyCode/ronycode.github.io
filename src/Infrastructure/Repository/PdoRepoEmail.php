@@ -18,7 +18,7 @@ class PdoRepoEmail implements EmailRepository
         $this->connection = $connection;
     }
 
-    public function recoverPassword(Usuario $usuario): bool
+    public function verifyAndAddHashPassword(Usuario $usuario): bool
     {
         $stmt = $this->connection->prepare(
             'SELECT * FROM usuarios WHERE email = :email LIMIT 1'
@@ -27,7 +27,6 @@ class PdoRepoEmail implements EmailRepository
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
-            $stmt->fetch();
             $this->addDadosRecover($usuario);
 
             return true;
@@ -48,17 +47,28 @@ class PdoRepoEmail implements EmailRepository
         );
         $stmt->execute();
         if ($stmt->rowCount() > 0) {
-            $this->sendEmail($usuario);
-            return true;
+            $stmt = $this->connection->prepare(
+                'SELECT * FROM recupera_senhas where email=:email'
+            );
+            $stmt->bindValue(':email', $usuario->getEmail());
+            $stmt->execute();
+            if ($stmt->rowCount() > 0) {
+                $row = $stmt->fetch();
+                $_SESSION['hash_valida'] = $row['hash'];
+                $this->sendEmail($usuario, $_SESSION['hash_valida']);
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
     }
 
-    private function sendEmail(Usuario $usuario): bool
+    private function sendEmail(Usuario $usuario, $hash): bool
     {
         $email = new Email();
-        $bodyEmail = $email->templateEmail($usuario);
+        $bodyEmail = $email->templateEmail($usuario, $hash);
         $email
             ->add(
                 'Solicitação para troca de sennha',
@@ -82,9 +92,6 @@ class PdoRepoEmail implements EmailRepository
         $stmt->bindValue(':email', $usuario->getEmail());
         $stmt->execute();
         if ($stmt->rowCount() > 0) {
-            $row = $stmt->fetch();
-            password_verify($usuario->getEmail(), $row['hash']);
-            echo $usuario->getEmail();
             return true;
         } else {
             return false;
